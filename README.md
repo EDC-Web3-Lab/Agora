@@ -1,19 +1,22 @@
-# Agora
-## Web3 Application Framework : NFT Marketplace
-https://youtu.be/Q_cxytZZdnc
-### Tech Stack
-    Node 
-    React components
-    Ether.js
-    Solidity : smart contract programming
-    OpenZeppelin (Solidity Smart Contract lib)
+# `Agora` 
 
-    car.ipfs.io  : create initial NFT metadata file(.car) from JSON metadata
-    NFT.storage  : store NFT metadata in CAR files
-                   creates URI
-### DevOps Setup (linux)
+
+Agora is a Web3 NFT Market 
+# Web3 NodeJS App Framework
+https://youtu.be/Q_cxytZZdnc
+
+## Tech Stack  
++ Node  : javascript runtime
++ React : front-end components
++ Ether.js : Etherium JS library
++ Solidity : smart contract programming
++ OpenZeppelin : Solidity Smart Contract lib https://docs.openzeppelin.com/contracts/4.x/
++ HardHat.org : Etherium local development environment https://hardhat.org/getting-started/#installation
++ car.ipfs.io  : create initial NFT metadata file(.car) from JSON metadata
++ NFT.storage  : store NFT metadata in CAR files. Creates URI address 
+## DevOps Setup (linux)
 - install nvm
-    > sudo apt install curl 
+    > sudo aspt install curl 
 
     >curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash
     
@@ -23,10 +26,15 @@ https://youtu.be/Q_cxytZZdnc
     > nvm install node
 
     > nvm current
-- verify node & npm versions
+- verify node & npm(bundled) versions
     > node -v
 
     > npm -v
+- install Hardhat   https://hardhat.org/getting-started/#installation
+    > npm install --save-dev hardhat@2.8.4
+
+- (if necessary) install and enable MetaMask chrome extension https://metamask.io
+
 - cd to project folder and clone repo
     > $ git clone https://github.com/EDC-Web3-Lab/Agora.git
 
