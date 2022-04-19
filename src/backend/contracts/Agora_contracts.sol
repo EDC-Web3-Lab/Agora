@@ -14,7 +14,7 @@ contract Agora is ERC721("Agora", "AGRA") , Ownable {
     address public artist;
     uint256 public royaltyFee;
 
-    struct MarketItem {
-
-    }
+    // struct MarketItem {
+    //     string itemNo;
+    // }
 }
