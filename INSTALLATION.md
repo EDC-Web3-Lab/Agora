@@ -45,17 +45,22 @@
 
 ## Smart Contract development workflow
 + Modify smart contract code in Agora_contracts.sol
-+ If necessary, add smart contract to deploy.js . Location is commented.
++ If not already there, add smart contract to deploy.js . Location is commented.
 + Compile & deploy to executing hardhat process.
     > $npm run deploy
 + deploys using first demo wallet account 
 + Note Smart contract address for next step
 + Verify deployment using hardhat console
   > $ npx hardhat console --network localhost
-  >>const contract = await ethers.getContractAt("smart contract name","smart contract address")
+  >>const contract = await ethers.getContractAt(".sol contract name","smart contract address")
 
  
 ## Start the Application
 + NodeJS must be installed and running
 + From the application directory
     > $npm run start
+## Sample Application Data
+    + IPFS  : create initial NFT metadata file(.car) from JSON metadata https://car.ipfs.io 
+    + NFT.storage  : store NFT metadata in .car files. https://NFT.storage/new-file/
+        * Create a new account and login to upload metadata files
+        * Creates URI address accessed by smart contract code
