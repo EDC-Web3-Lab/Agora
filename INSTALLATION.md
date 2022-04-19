@@ -33,11 +33,27 @@
 - install Openzeppelin Smart Contract library
     > $ npm install @openzeppelin/contracts@4.5.0
 
-## Running Hardhat 
-+ Starts a local ethereum node for testing
+## Launch a local blockchain node
+### Hardhat 
++ Start a local ethereum node for testing
+    > $ npx hardhat node
 + Must be running a version of nodeJS supported by Hardhat
--    > npx hardhat node
-## START the React App
-+ > NodeJS must be running
-+ > cd to the application directory
-+ > npm run start
++ Smart Contracts/Tokens must be deployed to the blockchain using deploy.js before launching the application
++ Hardhat javascript console
+    > $ npx hardhat console --network localhost
+    >& const contract = 
+
+## Start the Application
++ NodeJS must be installed and running
++ From the application directory
+    > $npm run start
+
+## Smart Contract development workflow
++ Modify smart contract code in Agora_contracts.sol
++ If necessary, add smart contract to deploy.js . Location is commented.
++ Compile & deploy to executing hardhat process.
+    > $npm run deploy
++ Note Smart contract address for next step
++ Verify deployment using hardhat console
+  > $ npx hardhat console --network localhost
+  >>const contract = await ethers.getContractAt("smart contract name","smart contract address")

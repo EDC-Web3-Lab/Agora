@@ -1,7 +1,10 @@
 # `Agora` 
 
-A full-stack Dapp framework 
-# Web3 NodeJS App Framework
+A full-stack Dapp framework consisting of a React front-end running on NodeJS that accesses smart contracts on an etherium compatible blockchain
+
+
+This sample application models an online marketplace where a user can connect a metamask wallet to buy & sell audio NFTs using Agora (symbol:AGRA), a fictitious cryptocurrency.
+# Framework for Web3 Applications
 https://youtu.be/Q_cxytZZdnc
 
 ## Tech Stack  
