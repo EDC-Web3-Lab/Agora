@@ -6,32 +6,35 @@ Agora is a Web3 NFT Market
 https://youtu.be/Q_cxytZZdnc
 
 ## Tech Stack  
-+ Node  : javascript runtime
-+ React : front-end components
-+ Ether.js : Etherium JS library
++ NodeJS  : javascript runtime (backend) Version 16.14.2
++ React : front-end component-based framework
++ Ethers.js : Etherium Blockchain library https://docs.ethers.io
 + Solidity : smart contract programming
-+ OpenZeppelin : Solidity Smart Contract lib https://docs.openzeppelin.com/contracts/4.x/
-+ HardHat.org : Etherium local development environment https://hardhat.org/getting-started/#installation
-+ car.ipfs.io  : create initial NFT metadata file(.car) from JSON metadata
-+ NFT.storage  : store NFT metadata in CAR files. Creates URI address 
++ OpenZeppelin : Solidity lib for Etherium Smart Contracts  https://docs.openzeppelin.com/contracts/4.x/
++ HardHat.org Version: 2.9.3 
+    + Etherium local development environment https://hardhat.org/getting-started/#installation
++ IPFS  : create initial NFT metadata file(.car) from JSON metadata https://car.ipfs.io 
++ NFT.storage  : store NFT metadata in .car files. https://NFT.storage/new-file/
+    * Create a new account and login to upload metadata files
+    * Creates URI address accessed by smart contract code
 ## DevOps Setup (linux)
-- install nvm
-    > sudo aspt install curl 
+- install nvm   NodeJS version manager
+    > $ sudo apt install curl 
 
-    >curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash
+    > $ curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash
     
-    >nvm -v
+    > $ nvm -v
 
-- install node using nvm
-    > nvm install node
+- install nodeJS using nvm
+    > $ nvm install node
 
-    > nvm current
+    > $ nvm current
 - verify node & npm(bundled) versions
-    > node -v
+    > $ node -v
 
-    > npm -v
+    > $ npm -v
 - install Hardhat   https://hardhat.org/getting-started/#installation
-    > npm install --save-dev hardhat@2.8.4
+    > $ npm install --save-dev hardhat@2.8.4
 
 - (if necessary) install and enable MetaMask chrome extension https://metamask.io
 
@@ -45,4 +48,8 @@ https://youtu.be/Q_cxytZZdnc
 - install React router components  (version 6)
     > $ npm install react-router-dom@6
 - install Openzeppelin Smart Contract library
-    > npm install @openzeppelin/contracts@4.5.0
+    > $ npm install @openzeppelin/contracts@4.5.0
+
+## Running Hardhat 
+start a local ethereum node for testing
+-    > npx hardhat node
