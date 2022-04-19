@@ -1,5 +1,8 @@
-// instantiate ethers Obj 
-// injected into hardhat dev environ  https://docs.ethers.io
+// instantiate ethers Object from hardhat node
+//  https://docs.ethers.io
+// ether class is already injected into hardhat node
+// file locations are defined in hardhat.config.js
+
 const { ethers } = require("hardhat");
 
 async function main() {
@@ -14,7 +17,7 @@ async function main() {
   const NFTMarketPlaceFactory = await ethers.getContractFactory("Agora");
   const nftMarketplace = await NFTMarketPlaceFactory.deploy();  
 
-  // log address of contract to console
+  // log address of contracts to console
   // to create an instance of it in the hardhat console
   console.log("Smart Contract Address",nftMarketplace.address)
 

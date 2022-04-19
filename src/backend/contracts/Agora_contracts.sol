@@ -11,10 +11,22 @@ contract Agora is ERC721("Agora", "AGRA") , Ownable {
     string public baseURI = 
            "https://bafybeihzlnpv7eq5i5utkmc7xeub3gvzszjiqu6jv5rpbdhi42niefb6du.ipfs.nftstorage.link/";
     string public baseExtension = ".json";
-    address public artist;
+    address public artist; // solidity ethereum-address datatype
     uint256 public royaltyFee;
 
-    // struct MarketItem {
-    //     string itemNo;
-    // }
+    struct MarketItem {
+        uint256 tokenID;
+        address payable seller; // notice the "payable" keyword
+        uint256 price;
+    }
+
+    MarketItem[] public marketItems;    // define an array of type MarketItem
+
+    constructor(
+        address _artist,  // underscores mark arguments versus state-variables
+        uint256 _royaltyFee,
+        uint256[] memory _prices
+    ) payable {  
+
+    }  // 42:05
 }
