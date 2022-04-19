@@ -1,15 +1,25 @@
+// instantiate ethers Obj 
+// injected into hardhat dev environ  https://docs.ethers.io
+const { ethers } = require("hardhat");
+
 async function main() {
 
   const [deployer] = await ethers.getSigners();
 
   console.log("Deploying contracts with the account:", deployer.address);
   console.log("Account balance:", (await deployer.getBalance()).toString());
-
+  
+  
   // deploy contracts here:
-  
-  
+  const NFTMarketPlaceFactory = await ethers.getContractFactory("Agora");
+  const nftMarketplace = await NFTMarketPlaceFactory.deploy();  
+
+  // log address of contract to console
+  // to create an instance of it in the hardhat console
+  console.log("Smart Contract Address",nftMarketplace.address)
+
   // For each contract, pass the deployed contract and name to this function to save a copy of the contract ABI and address to the front end.
-  saveFrontendFiles();
+  saveFrontendFiles(nftMarketplace,"Agora");
 }
 
 function saveFrontendFiles(contract, name) {

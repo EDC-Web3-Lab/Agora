@@ -51,5 +51,10 @@ https://youtu.be/Q_cxytZZdnc
     > $ npm install @openzeppelin/contracts@4.5.0
 
 ## Running Hardhat 
-start a local ethereum node for testing
++ Starts a local ethereum node for testing
++ Must be running a version of nodeJS supported by Hardhat
 -    > npx hardhat node
+## START the React App
++ > NodeJS must be running
++ > cd to the application directory
++ > npm run start
