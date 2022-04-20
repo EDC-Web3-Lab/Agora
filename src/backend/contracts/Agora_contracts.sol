@@ -23,6 +23,7 @@ contract Agora is ERC721("Agora", "AGRA") , Ownable {
     }
 
     MarketItem[] public marketItems;    // define an array of type MarketItem
+    
     /* constructor initializes royaltyFee, artist-address, & price  */
     constructor(
         address _artist,  // underscores mark arguments versus state-variables

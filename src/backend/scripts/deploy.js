@@ -1,6 +1,6 @@
 // instantiate ethers Object from hardhat node
 //  https://docs.ethers.io
-// ether class is already injected into hardhat node
+// ethers class is already injected into hardhat node
 // file locations are defined in hardhat.config.js
 
 const { ethers } = require("hardhat");
