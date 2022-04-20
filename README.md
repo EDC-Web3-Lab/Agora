@@ -11,7 +11,9 @@ https://youtu.be/Q_cxytZZdnc
 + NodeJS  : javascript runtime (backend) Version 16.14.2
 + React : front-end component-based framework
 + Ethers.js : Etherium Blockchain library https://docs.ethers.io
-+ Solidity : smart contract programming
++ Solidity : smart contract programming 
+    * https://www.theengineeringprojects.com/2021/06/what-is-solidity-programming.html
+    * https://www.bitdegree.org/learn/solidity-examples 
 + OpenZeppelin : Solidity lib for Etherium Smart Contracts  https://docs.openzeppelin.com/contracts/4.x/
 + HardHat.org Version: 2.9.3 
     + Etherium local development environment https://hardhat.org/getting-started/#installation

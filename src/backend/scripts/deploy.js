@@ -13,7 +13,7 @@ async function main() {
   console.log("Account balance:", (await deployer.getBalance()).toString());
   
   
-  // deploy contracts here:
+  // deploy contracts to the blockchain here:
   const NFTMarketPlaceFactory = await ethers.getContractFactory("Agora");
   const nftMarketplace = await NFTMarketPlaceFactory.deploy();  
 
