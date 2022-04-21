@@ -1,29 +1,33 @@
 /* ____ Deploy Smart Contract to Blockchain _____
-
-  Execute this deployment script from application directory -->
-    $ npm run deploy
-    https://docs.ethers.io
-  artifacts. file locations are defined in hardhat.config.js
+     Execute this deployment script from application directory
+            $ npm run deploy
+  NOTE: artifacts. file locations are defined in hardhat.config.js
 */
-const { ethers } = require("hardhat");   // instantiate ethers Obj (already injected in hardhat)
+
+const { ethers } = require("hardhat");  //  Instantiate ethers Obj (already injected in hardhat)
 
 async function main() {
   const smartContractName = "Agora"
-  // const [deployer] = await ethers.getSigners();
   let deployer, artist, user1, user2, users;
   [deployer, artist, user1, user2, ...users] = await ethers.getSigners();
   console.log("Deploying contracts with the account:", deployer.address);
   console.log("Account balance:", (await deployer.getBalance()).toString());
   
-  // _____ deploy contracts to the blockchain here: ________
-    // Setup data to pass in to constructor
+  // Setup data to pass in to constructor
   const toWei = (num) => ethers.utils.parseEther(num.toString())
   const fromWei = (num) => ethers.utils.formatEther(num)
   let royaltyFee = toWei(0.01);
-  // let URI = "https://bafybeihzlnpv7eq5i5utkmc7xeub3gvzszjiqu6jv5rpbdhi42niefb6du.ipfs.nftstorage.link/";
-  let prices = [toWei(1), toWei(2), toWei(3), toWei(4), toWei(5), toWei(6), toWei(7), toWei(8),];
+  let prices = [toWei(1),
+                toWei(2),
+                toWei(3),
+                toWei(4),
+                toWei(5),
+                toWei(6),
+                toWei(7),
+                toWei(8) ];
   let deploymentFees = toWei(prices.length * 0.01)
 
+  // deploy the contract
   const contractFactory = await ethers.getContractFactory(smartContractName);
   const smartContract = await contractFactory.deploy(
     artist.address,
@@ -32,11 +36,12 @@ async function main() {
     { value: deploymentFees }
   );  
 
-  // log address of contracts to console
-  // to create an instance of it in the hardhat console
+  /* log address of contracts to console
+     to create an instance of it in the hardhat console */
   console.log("Smart Contract Address",smartContract.address)
 
-  // For each contract, pass the deployed contract and name to this function to save a copy of the contract ABI and address to the front end.
+  /* For each contract, pass the deployed contract and name to this function
+     to save a copy of the contract ABI and address to the front end. */
   saveFrontendFiles(smartContract,smartContractName);
 }
 
