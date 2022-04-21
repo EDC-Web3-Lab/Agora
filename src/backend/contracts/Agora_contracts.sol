@@ -10,7 +10,7 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 contract Agora is ERC721("Agora", "AGRA") , Ownable {
     // ___ STATE VARIABLES ____
                // NFT.storage CID for Audio File Metadata (JSON)
-    string public baseURI = 
+    string public dataURI = 
            "https://bafybeihzlnpv7eq5i5utkmc7xeub3gvzszjiqu6jv5rpbdhi42niefb6du.ipfs.nftstorage.link/";
     string public baseExtension = ".json";
     address public artist; // solidity ethereum-address datatype
