@@ -79,12 +79,12 @@ describe("UNIT TESTS : Agora Smart Contract", function () {
         });
         it("Audio NFT data fields are valid", async function () {
             // get each item in from the marketPlace array then check validity of fields
-            // await Promise.all(prices.map(async (i, indx) => {
-            //     const item = await nftM.marketItems(indx)
-            //     expect(item.tokenId).to.equal(indx)
-            //     expect(item.seller).to.equal(deployer.address)
-            //     expect(item.price).to.equal(i)
-            // }));
+            await Promise.all(prices.map(async (i, indx) => {
+                const item = await smartContract.marketItems(indx)
+                expect(item.tokenId).to.equal(indx)
+                expect(item.seller).to.equal(deployer.address)
+                expect(item.price).to.equal(i)
+            }));
         });
     })
 
@@ -99,7 +99,6 @@ describe("UNIT TESTS : Agora Smart Contract", function () {
                 ).to.be.revertedWith("Ownable: caller is not the owner");
         });
     });
-
     describe("function BuyToken", function () {
         //  https://youtu.be/Q_cxytZZdnc?t=3386
         it("Updates seller to zero addr, transfers, pays royalty, & emits event", async function () {
@@ -141,11 +140,6 @@ describe("UNIT TESTS : Agora Smart Contract", function () {
             ).to.be.revertedWith("Please send the asking price in order to complete the transaction");
         });
     });
-
-
-
-
-
     describe("function relistToken", function () {
         //  https://youtu.be/Q_cxytZZdnc?t=3572
         beforeEach (async function () {
@@ -189,6 +183,41 @@ describe("UNIT TESTS : Agora Smart Contract", function () {
             .to.be.revertedWith("Must pay royalty")
 
 
+        });
+    });
+    describe("Get functions", function () {
+        //  https://youtu.be/Q_cxytZZdnc?t=4034
+        let soldItems = [0, 1, 4]
+        let ownedByUser1 = [0, 1]
+        let ownedByUser2 = [4]
+        beforeEach (async function () {
+            // user1 purchases item 0
+            await (await smartContract.connect(user1).buyToken(0, {value: prices[0]})).wait();
+            // user1 purchases item 1
+            await (await smartContract.connect(user1).buyToken(1, {value: prices[1]})).wait();
+            // user2 purchases item 4
+            await (await smartContract.connect(user2).buyToken(4, {value: prices[4]})).wait();
+        });
+
+        it("getAllUnsoldTokens verified", async function () {
+            const unsoldItems = await smartContract.getAllUnsoldTokens()
+            // make sure all the returned items have filtered out the sold items
+            expect(unsoldItems.every(I =>!soldItems.some(j => j === I.tokenId.toNumber()))).to.equal(true)
+            // check that the length is correct
+            expect(unsoldItems.length === prices.length - soldItems.length).to.equal(true)
+        });
+
+        it("getMyTokens verified", async function () {
+            // get items owned by user1
+            let myItems = await smartContract.connect(user1).getMyTokens()
+            // check that returned array is correct
+            expect(myItems.every(i => ownedByUser1.some(j => j === i.tokenId.toNumber()))).to.equal(true)
+            expect(ownedByUser1.length === myItems.length).to.equal(true)
+            // get items owned by user2
+            myItems = await smartContract.connect(user2).getMyTokens()
+            // check that returned array is correct
+            expect(myItems.every(i => ownedByUser2.some(j => j === i.tokenId.toNumber()))).to.equal(true)
+            expect(ownedByUser2.length === myItems.length).to.equal(true)
         });
     });
 });

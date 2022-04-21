@@ -1,10 +1,11 @@
 /* ____ Deploy Smart Contract to Blockchain _____
-     Execute this deployment script from application directory
+     Execute this script from application directory
             $ npm run deploy
+      deploy script is defined in package.json
   NOTE: artifacts. file locations are defined in hardhat.config.js
 */
 
-const { ethers } = require("hardhat");  //  Instantiate ethers Obj (already injected in hardhat)
+const { ethers } = require("hardhat");  //  Instantiate ethers Obj (already injected into hardhat)
 
 async function main() {
   const smartContractName = "Agora"

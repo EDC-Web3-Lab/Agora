@@ -1,9 +1,9 @@
-// SPDX-License-Identifier: MIT
-// https://www.theengineeringprojects.com/2021/06/what-is-solidity-programming.html
-// https://www.bitdegree.org/learn/solidity-examples 
 
-pragma solidity  ^0.8.4;
-
+/*  
+AGORA : Main Smart Contract
+SPDX-License-Identifier: UNLICENSED
+*/
+pragma solidity  ^0.8.4; 
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 
@@ -83,16 +83,37 @@ contract Agora is ERC721(tokenName, tokenSymbol) , Ownable {
         emit MarketItemRelisted(_tokenId, msg.sender, _price);
     }
     function getAllUnsoldTokens() external view returns (MarketItem[] memory) {
-        uint256 unsoldCount = balanceOf(address(this));
-        MarketItem[] memory tokens = new MarketItem[](unsoldCount);
         uint256 currentIndex;
+        uint256 unsoldCount = balanceOf(address(this));
+        MarketItem[] memory tokens = new MarketItem[](unsoldCount); // build an array of tokens
         for (uint256 i = 0; i < marketItems.length; i++) {
             if(marketItems[i].seller != address(0)) {
                 tokens[currentIndex] = marketItems[i];
                 currentIndex++;
             }
         }
+        return (tokens);
     }
-    // function getMyTokens() external view returns (MarketItem[] memory) {
-    // }
+    function getMyTokens() external view returns (MarketItem[] memory) {
+        uint256 currentIndex;
+        uint256 myTokenCount = balanceOf(msg.sender);
+        MarketItem[] memory tokens = new MarketItem[](myTokenCount); // build an array of tokens
+        for (uint256 i = 0; i < marketItems.length; i++) {
+            if(ownerOf(i) == msg.sender) {
+                tokens[currentIndex] = marketItems[i];
+                currentIndex++;
+            }
+        }
+        return (tokens);
+    }
+    /* Internal function overrides _baseURI() inherited from ERC721 parent class
+           returns state-variable metadataURI     */
+    function _baseURI() internal view virtual override returns (string memory) {
+        return metadataURI;
+    }
 }
+
+/* Reference Materials and Documentation
+   https://www.theengineeringprojects.com/2021/06/what-is-solidity-programming.html
+   https://www.bitdegree.org/learn/solidity-examples 
+*/
