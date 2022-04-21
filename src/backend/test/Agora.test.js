@@ -33,7 +33,7 @@ describe("UNIT TEST : Agora Smart Contract", function () {
     let smartContract
     let deployer, artist, user1, user2, users;
     let royaltyFee = toWei(0.01);
-    let dataURI = "https://bafybeihzlnpv7eq5i5utkmc7xeub3gvzszjiqu6jv5rpbdhi42niefb6du.ipfs.nftstorage.link/";
+    let metadataURI = "https://bafybeihzlnpv7eq5i5utkmc7xeub3gvzszjiqu6jv5rpbdhi42niefb6du.ipfs.nftstorage.link/";
     let prices = [toWei(1),
                   toWei(2),
                   toWei(3),
@@ -60,22 +60,22 @@ describe("UNIT TEST : Agora Smart Contract", function () {
     });
     
     describe("Successful deployment", function () {
-        it("VERFIED: ERC721 name, symbol are valid", async function () {
+        it("ERC721 name, symbol are valid", async function () {
             expect(await smartContract.name()).to.equal(erc721Name);
             expect(await smartContract.symbol()).to.equal(erc721Symbol);
         });
-        it("VERFIED: Artist address, royalty fee, and data URI are valid", async function () {
-            expect(await smartContract.dataURI()).to.equal(dataURI);
+        it("Artist address, royalty fee, and data URI are valid", async function () {
+            expect(await smartContract.metadataURI()).to.equal(metadataURI);
             expect(await smartContract.royaltyFee()).to.equal(royaltyFee);
             expect(await smartContract.artist()).to.equal(artist.address);
         });
-        it("VERFIED: Number of initial audio NFTs = 8", async function () {
+        it("Number of initial audio NFTs = 8", async function () {
             expect( await smartContract.balanceOf(smartContract.address)).to.equal(8);
         });
-        it("VERFIED: Deployment Fee(0.01 eth) total balance = "+ fromWei(deploymentFees)+" eth", async function () {
+        it("Deployment Fee(0.01 eth) total balance = "+ fromWei(deploymentFees)+" eth", async function () {
             expect( await ethers.provider.getBalance(smartContract.address)).to.equal(deploymentFees);
         });
-        it("VERFIED: Audio NFT data fields are valid", async function () {
+        it("Audio NFT data fields are valid", async function () {
             // get each item in from the marketPlace array then check validity of fields
             // await Promise.all(prices.map(async (i, indx) => {
             //     const item = await nftM.marketItems(indx)
@@ -87,14 +87,24 @@ describe("UNIT TEST : Agora Smart Contract", function () {
     })
 
     describe("function UpdateRoyaltyFee", function () {
-        it("VERFIED: Only deployer can update royalty fee", async function () {
-            const fee = toWei(0.02)
+        const fee = toWei(0.02)
+        it("Royalty fee amount changed properly", async function () {
             await smartContract.updateRoyaltyFee(fee)
+            expect(await smartContract.royaltyFee()).to.equal(fee)
+        });
+        it("Only deployer can update royalty fee", async function () {
             await expect(smartContract.connect(user1).updateRoyaltyFee(fee)
                 ).to.be.revertedWith("Ownable: caller is not the owner");
         });
-        it("VERFIED: royalty fee amount changed properly", async function () {
-            expect(await smartContract.royaltyFee()).to.equal(fee)
+    });
+
+    describe("function BuyToken", function () {
+        const fee = toWei(0.02)
+        it("Should update seller to zero addr, do transfers, pay royalty, and emit event", async function () {
+            https://youtu.be/Q_cxytZZdnc?t=3386
+        });
+        it("Should fail when ether amt sent does not = asking price", async function () {
+
         });
     });
 

@@ -23,6 +23,15 @@ contract Agora is ERC721(tokenName, tokenSymbol) , Ownable {
             }
     MarketItem[] public marketItems;    // define an array of type MarketItem
 
+    /*  _______ EVENTS _______ */
+
+    event MarketItemBought(
+        uint256 indexed tokenId,
+        address indexed seller,
+        address buyer,
+        uint256 price
+    );
+
     /* ______ constructor ________ */
     constructor(
             address   _artist,  // underscores mark arguments versus state-variables
@@ -40,11 +49,22 @@ contract Agora is ERC721(tokenName, tokenSymbol) , Ownable {
                     }
             }   
 
+    /*   */
     function updateRoyaltyFee( uint256 _royaltyFee) external onlyOwner {
         royaltyFee = _royaltyFee;
-        
     }
 
-
+    // https://youtu.be/Q_cxytZZdnc?t=3215
+    function buyToken( uint256 _tokenId) external payable {
+        payable(artist).transfer(royaltyFee); 
+        uint256 price = marketItems[_tokenId].price;
+        address seller = marketItems[_tokenId].seller;
+        require(msg.value == price, "Please send the asking price in order to complete the tranaction" );
+        marketItems[_tokenId].seller = payable(address(0));
+        _transfer(address(this), msg.sender, _tokenId);
+        payable(artist).transfer(royaltyFee);
+        payable(seller).transfer(msg.value);
+        emit MarketItemBought(_tokenId, seller, msg.sender, price);
+    }
 
 }
