@@ -24,7 +24,6 @@ contract Agora is ERC721(tokenName, tokenSymbol) , Ownable {
     MarketItem[] public marketItems;    // define an array of type MarketItem
 
     /*  _______ EVENTS _______ */
-
     event MarketItemBought(
         uint256 indexed tokenId,
         address indexed seller,
@@ -32,7 +31,7 @@ contract Agora is ERC721(tokenName, tokenSymbol) , Ownable {
         uint256 price
     );
 
-    /* ______ constructor ________ */
+    /* ______ CONSTRUCTOR ________ */
     constructor(
             address   _artist,  // underscores mark arguments versus state-variables
             uint256   _royaltyFee,
@@ -54,13 +53,30 @@ contract Agora is ERC721(tokenName, tokenSymbol) , Ownable {
         royaltyFee = _royaltyFee;
     }
 
+    /* ______ FUNCTIONS ________ */
     // https://youtu.be/Q_cxytZZdnc?t=3215
     function buyToken( uint256 _tokenId) external payable {
-        payable(artist).transfer(royaltyFee); 
         uint256 price = marketItems[_tokenId].price;
         address seller = marketItems[_tokenId].seller;
+
+        require(msg.value == price, "Please send the asking price in order to complete the transaction" );
+
+        marketItems[_tokenId].seller = payable(address(0)); // zero out the seller address
+
+        _transfer(address(this), msg.sender, _tokenId);
+        payable(artist).transfer(royaltyFee);
+        payable(seller).transfer(msg.value);
+        emit MarketItemBought(_tokenId, seller, msg.sender, price);
+    }
+
+    function resellToken( uint256 _tokenId) external payable {
+        uint256 price = marketItems[_tokenId].price;
+        address seller = marketItems[_tokenId].seller;
+
         require(msg.value == price, "Please send the asking price in order to complete the tranaction" );
+
         marketItems[_tokenId].seller = payable(address(0));
+
         _transfer(address(this), msg.sender, _tokenId);
         payable(artist).transfer(royaltyFee);
         payable(seller).transfer(msg.value);

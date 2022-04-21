@@ -27,7 +27,7 @@ const { ethers } = require("hardhat")
 const toWei = (num) => ethers.utils.parseEther(num.toString())
 const fromWei = (num) => ethers.utils.formatEther(num)
 
-describe("UNIT TEST : Agora Smart Contract", function () {
+describe("UNIT TESTS : Agora Smart Contract", function () {
     const erc721Name = "Agora"
     const erc721Symbol = "AGRA"
     let smartContract
@@ -43,6 +43,8 @@ describe("UNIT TEST : Agora Smart Contract", function () {
                   toWei(7),
                   toWei(8) ];
     let deploymentFees = toWei(prices.length * 0.01)
+
+    // beforeEach() is run before each test in a describe : MochaJS
     beforeEach(async () => {
         // instantiate ContractFactory obj
         const smartContractName = "Agora"
@@ -59,7 +61,7 @@ describe("UNIT TEST : Agora Smart Contract", function () {
         );
     });
     
-    describe("Successful deployment", function () {
+    describe("Deployment Test", function () {
         it("ERC721 name, symbol are valid", async function () {
             expect(await smartContract.name()).to.equal(erc721Name);
             expect(await smartContract.symbol()).to.equal(erc721Symbol);
@@ -86,7 +88,7 @@ describe("UNIT TEST : Agora Smart Contract", function () {
         });
     })
 
-    describe("function UpdateRoyaltyFee", function () {
+    describe("Test UpdateRoyaltyFee()", function () {
         const fee = toWei(0.02)
         it("Royalty fee amount changed properly", async function () {
             await smartContract.updateRoyaltyFee(fee)
@@ -99,13 +101,47 @@ describe("UNIT TEST : Agora Smart Contract", function () {
     });
 
     describe("function BuyToken", function () {
-        const fee = toWei(0.02)
-        it("Should update seller to zero addr, do transfers, pay royalty, and emit event", async function () {
-            https://youtu.be/Q_cxytZZdnc?t=3386
-        });
-        it("Should fail when ether amt sent does not = asking price", async function () {
+        //  https://youtu.be/Q_cxytZZdnc?t=3386
+        it("Updates seller to zero addr, transfers, pays royalty, & emits event", async function () {
+            // ___ store balances BEFORE buying ___
+            const deployerInitialEthBal = await deployer.getBalance()
+            const artistInitialEthBal = await artist.getBalance()
 
+            // ___ user1 buys NFT/token #0 & triggers MarketItemBought event ___
+            const tokenId = 0
+            await expect(smartContract.connect(user1).buyToken(0, {value: prices[tokenId]}))
+             .to.emit(smartContract, "MarketItemBought")
+             .withArgs(
+                tokenId,
+                deployer.address,
+                user1.address,
+                prices[tokenId]
+             )
+
+            // ___ store balances AFTER buying ____
+            const deployerFinalEthBal = await deployer.getBalance()
+            const artistFinalEthBal = await artist.getBalance()
+            
+            // __ item sold should have zeroed address ___
+            expect( (await smartContract.marketItems(tokenId)).seller).to.equal("0x0000000000000000000000000000000000000000")
+
+            // __ seller should receive pmt = price of NFT sold ___
+            //  why the + in front of fromWei() ??? signing?
+            expect(+fromWei(deployerFinalEthBal) ).to.equal(+fromWei(prices[tokenId]) + +fromWei(deployerInitialEthBal))
+
+            // __ artist should receive royalty fee ___
+            expect(+fromWei(artistFinalEthBal) ).to.equal(+fromWei(royaltyFee) + +fromWei(artistInitialEthBal))
+
+            // // __ buyer should own the NFT ___
+            expect( await smartContract.ownerOf(tokenId) ).to.equal( user1.address )
         });
+
+        it("Should fail when ether amt sent does not = asking price", async function () {
+            const tokenId = 0
+            await expect(smartContract.connect(user1).buyToken(tokenId, { value: prices[tokenId+1]} )
+            ).to.be.revertedWith("Please send the asking price in order to complete the transaction");
+        });
+
     });
 
 });
