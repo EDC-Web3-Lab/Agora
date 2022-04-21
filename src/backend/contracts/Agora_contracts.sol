@@ -17,7 +17,7 @@ contract Agora is ERC721(tokenName, tokenSymbol) , Ownable {
     address public artist;
     uint256 public royaltyFee;
     struct  MarketItem {
-            uint256 tokenID;
+            uint256 tokenId;
             address payable seller; // notice the "payable" keyword
             uint256 price;
             }
@@ -30,7 +30,11 @@ contract Agora is ERC721(tokenName, tokenSymbol) , Ownable {
         address buyer,
         uint256 price
     );
-
+    event MarketItemRelisted(
+        uint256 indexed tokenId,
+        address indexed seller,
+        uint256 price
+    );
     /* ______ CONSTRUCTOR ________ */
     constructor(
             address   _artist,  // underscores mark arguments versus state-variables
@@ -48,12 +52,10 @@ contract Agora is ERC721(tokenName, tokenSymbol) , Ownable {
                     }
             }   
 
-    /*   */
+    /* ______ FUNCTIONS ________ */
     function updateRoyaltyFee( uint256 _royaltyFee) external onlyOwner {
         royaltyFee = _royaltyFee;
     }
-
-    /* ______ FUNCTIONS ________ */
     // https://youtu.be/Q_cxytZZdnc?t=3215
     function buyToken( uint256 _tokenId) external payable {
         uint256 price = marketItems[_tokenId].price;
@@ -68,19 +70,29 @@ contract Agora is ERC721(tokenName, tokenSymbol) , Ownable {
         payable(seller).transfer(msg.value);
         emit MarketItemBought(_tokenId, seller, msg.sender, price);
     }
+    // https://youtu.be/Q_cxytZZdnc?t=3485
+    function relistToken( uint256 _tokenId, uint256 _price) external payable {
+        
+        require(msg.value == royaltyFee, "Must pay royalty" ); // validate 
+        require(_price >0 , "Price must be greater than zero" );
 
-    function resellToken( uint256 _tokenId) external payable {
-        uint256 price = marketItems[_tokenId].price;
-        address seller = marketItems[_tokenId].seller;
-
-        require(msg.value == price, "Please send the asking price in order to complete the tranaction" );
-
-        marketItems[_tokenId].seller = payable(address(0));
-
-        _transfer(address(this), msg.sender, _tokenId);
-        payable(artist).transfer(royaltyFee);
-        payable(seller).transfer(msg.value);
-        emit MarketItemBought(_tokenId, seller, msg.sender, price);
+        marketItems[_tokenId].price = _price; //  set NFT price
+        marketItems[_tokenId].seller = payable(msg.sender); //  set seller address
+        
+        _transfer(msg.sender, address(this), _tokenId); // xfer NFT from sellers wallet to smartContract
+        emit MarketItemRelisted(_tokenId, msg.sender, _price);
     }
-
+    function getAllUnsoldTokens() external view returns (MarketItem[] memory) {
+        uint256 unsoldCount = balanceOf(address(this));
+        MarketItem[] memory tokens = new MarketItem[](unsoldCount);
+        uint256 currentIndex;
+        for (uint256 i = 0; i < marketItems.length; i++) {
+            if(marketItems[i].seller != address(0)) {
+                tokens[currentIndex] = marketItems[i];
+                currentIndex++;
+            }
+        }
+    }
+    // function getMyTokens() external view returns (MarketItem[] memory) {
+    // }
 }

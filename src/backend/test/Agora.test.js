@@ -109,7 +109,7 @@ describe("UNIT TESTS : Agora Smart Contract", function () {
 
             // ___ user1 buys NFT/token #0 & triggers MarketItemBought event ___
             const tokenId = 0
-            await expect(smartContract.connect(user1).buyToken(0, {value: prices[tokenId]}))
+            await expect(smartContract.connect(user1).buyToken(tokenId, {value: prices[tokenId]}))
              .to.emit(smartContract, "MarketItemBought")
              .withArgs(
                 tokenId,
@@ -135,13 +135,60 @@ describe("UNIT TESTS : Agora Smart Contract", function () {
             // // __ buyer should own the NFT ___
             expect( await smartContract.ownerOf(tokenId) ).to.equal( user1.address )
         });
-
         it("Should fail when ether amt sent does not = asking price", async function () {
             const tokenId = 0
             await expect(smartContract.connect(user1).buyToken(tokenId, { value: prices[tokenId+1]} )
             ).to.be.revertedWith("Please send the asking price in order to complete the transaction");
         });
-
     });
 
+
+
+
+
+    describe("function relistToken", function () {
+        //  https://youtu.be/Q_cxytZZdnc?t=3572
+        beforeEach (async function () {
+            // user1 purchases an item
+            const tokenId = 0
+            await smartContract.connect(user1).buyToken(tokenId, {value: prices[tokenId]})
+        });
+
+        it("Relists NFT , adds royalty fee, & emits event", async function () {
+            const resalePrice = toWei(2)
+            const initMarketBal = await ethers.provider.getBalance(smartContract.address)
+            // user1 lists the nft at  price = 2, hoping to flip it @ 2x his investment
+            const tokenId = 0
+            await expect(smartContract.connect(user1).relistToken(tokenId, resalePrice, {value: royaltyFee}))
+             .to.emit(smartContract, "MarketItemRelisted")
+             .withArgs(
+                tokenId,
+                user1.address,
+                resalePrice
+             )
+            const finalMarketBal = await ethers.provider.getBalance(smartContract.address)
+
+            // finalMarketBal must = initMarketBal + royalty fee
+            expect(+fromWei(finalMarketBal)).to.equal( +fromWei(initMarketBal) + +fromWei(royaltyFee) )
+
+            // owner of NFT should be smart contract
+            expect(await smartContract.ownerOf(tokenId)).to.equal(smartContract.address)
+
+            // validate marketItem fields in smart contract
+            const item = await smartContract.marketItems(tokenId)
+            expect(item.tokenId).to.equal(tokenId)
+            expect(item.price).to.equal(resalePrice)
+            expect(item.seller).to.equal(user1.address)
+        });
+
+        it("Should fail if price=0 & royalty not paid", async function () {
+            const tokenId = 0
+            await expect( smartContract.connect(user1).relistToken(tokenId, 0, {value:royaltyFee}) )
+            .to.be.revertedWith("Price must be greater than zero")
+            await expect( smartContract.connect(user1).relistToken(tokenId, toWei(1), {value:0}) )
+            .to.be.revertedWith("Must pay royalty")
+
+
+        });
+    });
 });
