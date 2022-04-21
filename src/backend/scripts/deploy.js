@@ -7,15 +7,30 @@ const { ethers } = require("hardhat");
 
 async function main() {
 
-  const [deployer] = await ethers.getSigners();
+  // const [deployer] = await ethers.getSigners();
+  let deployer, artist, user1, user2, users;
+  [deployer, artist, user1, user2, ...users] = await ethers.getSigners();
 
   console.log("Deploying contracts with the account:", deployer.address);
   console.log("Account balance:", (await deployer.getBalance()).toString());
   
   
-  // deploy contracts to the blockchain here:
+  // _____ deploy contracts to the blockchain here: ________
+  // Setup data to pass in to constructor
+  const toWei = (num) => ethers.utils.parseEther(num.toString())
+  const fromWei = (num) => ethers.utils.formatEther(num)
+  let royaltyFee = toWei(0.01);
+  let URI = "https://bafybeihzlnpv7eq5i5utkmc7xeub3gvzszjiqu6jv5rpbdhi42niefb6du.ipfs.nftstorage.link/";
+  let prices = [toWei(1), toWei(2), toWei(3), toWei(4), toWei(5), toWei(6), toWei(7), toWei(8),];
+  let deploymentFees = toWei(prices.length * 0.01)
+
   const NFTMarketPlaceFactory = await ethers.getContractFactory("Agora");
-  const nftMarketplace = await NFTMarketPlaceFactory.deploy();  
+  const nftMarketplace = await NFTMarketPlaceFactory.deploy(
+    artist.address,
+    royaltyFee,
+    prices,
+    { value: deploymentFees }
+  );  
 
   // log address of contracts to console
   // to create an instance of it in the hardhat console
