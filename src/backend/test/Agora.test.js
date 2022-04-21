@@ -59,33 +59,22 @@ describe("UNIT TEST : Agora Smart Contract", function () {
         );
     });
     
-    describe("Successfully deployed", function () {
-
+    describe("Successful deployment", function () {
         it("VERFIED: ERC721 name, symbol are valid", async function () {
             expect(await smartContract.name()).to.equal(erc721Name);
             expect(await smartContract.symbol()).to.equal(erc721Symbol);
         });
-
         it("VERFIED: Artist address, royalty fee, and data URI are valid", async function () {
             expect(await smartContract.dataURI()).to.equal(dataURI);
             expect(await smartContract.royaltyFee()).to.equal(royaltyFee);
             expect(await smartContract.artist()).to.equal(artist.address);
         });
-
         it("VERFIED: Number of initial audio NFTs = 8", async function () {
             expect( await smartContract.balanceOf(smartContract.address)).to.equal(8);
-            // get each item in from the marketPlace array then check validity of fields
-            // await Promise.all(prices.map(async (i, indx) => {
-            //     const item = await nftM.marketItems(indx)
-            //     expect(item.tokenId).to.equal(indx)
-            //     expect(item.seller).to.equal(deployer.address)
-            //     expect(item.price).to.equal(i)
-            // }));
         });
         it("VERFIED: Deployment Fee(0.01 eth) total balance = "+ fromWei(deploymentFees)+" eth", async function () {
             expect( await ethers.provider.getBalance(smartContract.address)).to.equal(deploymentFees);
         });
-
         it("VERFIED: Audio NFT data fields are valid", async function () {
             // get each item in from the marketPlace array then check validity of fields
             // await Promise.all(prices.map(async (i, indx) => {
@@ -95,7 +84,18 @@ describe("UNIT TEST : Agora Smart Contract", function () {
             //     expect(item.price).to.equal(i)
             // }));
         });
-
     })
+
+    describe("function UpdateRoyaltyFee", function () {
+        it("VERFIED: Only deployer can update royalty fee", async function () {
+            const fee = toWei(0.02)
+            await smartContract.updateRoyaltyFee(fee)
+            await expect(smartContract.connect(user1).updateRoyaltyFee(fee)
+                ).to.be.revertedWith("Ownable: caller is not the owner");
+        });
+        it("VERFIED: royalty fee amount changed properly", async function () {
+            expect(await smartContract.royaltyFee()).to.equal(fee)
+        });
+    });
 
 });
