@@ -8,16 +8,32 @@
 const { ethers } = require("hardhat");  //  Instantiate ethers Obj (already injected into hardhat)
 
 async function main() {
+
   const smartContractName = "Agora"
+  const toWei = (num) => ethers.utils.parseEther(num.toString()) //   Wei
+  const fromWei = (num) => ethers.utils.formatEther(num)  // conversion functions
+
+
   let deployer, artist, user1, user2, users;
+/* Use the Hardhat sample accounts (displayed on spin-up)
+   as follows:
+      Account #0 : smart contract deployer
+      Account #1 : artist
+      Account #2 : user1  
+      Account #3 : user2  
+    user1 & user2 can be added to metamask
+    for testing wallet functionality
+*/
   [deployer, artist, user1, user2, ...users] = await ethers.getSigners();
+  
+
   console.log("Deploying contracts with the account:", deployer.address);
   console.log("Account balance:", (await deployer.getBalance()).toString());
-  
-  // Setup data to pass in to constructor
-  const toWei = (num) => ethers.utils.parseEther(num.toString())
-  const fromWei = (num) => ethers.utils.formatEther(num)
+
+  // ____ Setup data to pass in to constructor ____
+  // royalty fee = 0.01 eth
   let royaltyFee = toWei(0.01);
+  // prices are defaulted from 1 to 8 eth
   let prices = [toWei(1),
                 toWei(2),
                 toWei(3),

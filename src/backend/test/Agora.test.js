@@ -1,6 +1,7 @@
 /* __________UNIT TESTS_________
    
-run tests via hardhat :  $npx hardhat test
+Run tests via hardhat :  $npx hardhat test
+docs: https://hardhat.org/tutorial/testing-contracts.html
 
 vid time https://youtu.be/Q_cxytZZdnc?t=2629
 https://www.edureka.co/blog/advanced-javascript-tutorial/
