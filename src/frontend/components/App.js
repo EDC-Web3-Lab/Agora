@@ -10,24 +10,38 @@ import {
  } from "react-router-dom";
 import { 
     Spinner,
-    NavBar,
+    Navbar,
     Nav,
     Button,
-    Container,
-    Navbar
+    Container
  } from "react-bootstrap";
-
-import logo from "logo.png";
-import "./App.css ";
+import SmartContractAddress from '../contractsData/Agora-address.json';
+import SmartContractAbi from '../contractsData/Agora.json';
+import logo from "./logo.png";
+import './App.css';
 
 function App() {
-    const [loading, setLoading] = useState(true)
+    const [loadingStatus, setLoadingStatus] = useState(true) // set loading status true
     const [account, setAccount] = useState(null)
+    const [contract, setContract] = useState({})
+    const loadContract = async (signer) => {
+      // get copy of deploy smart contract
+      const curr_contract = new ethers.Contract(SmartContractAddress.address, SmartContractAbi.abi, signer)
+      setContract(curr_contract)
+      setLoadingStatus(false) // done loading. set status to false
+    }
+      const web3Handler = async () => {
+      const accounts = await window.ethereum.request({ method: 'eth_requestAccounts'})
+      setAccount(accounts[0])   //   gets the first accounts[0]  (currently connnected)
+      const provider = new ethers.providers.Web3Provider(window.ethereum) // Get web3 provider from metamask
+      const signer = provider.getSigner()       // Get the signer
+      loadContract(signer)
+    }
     return (
       <BrowserRouter>
         <div className="App">
           <>
-            <NavBar expand="lg" bg="secondary" variant="dark">
+            <Navbar expand="lg" bg="secondary" variant="dark">
               <Container>
                 <Navbar.Brand href="https://github.com/ed-chin-git">
                   <img src={logo} width="40" height="40" className="" alt="" />
@@ -43,7 +57,7 @@ function App() {
                   <Nav>
                     {account ? (
                       <Nav.Link
-                        href={"https://etherscan.io/address/${account}"}
+                        href={`https://etherscan.io/address/${account}`}
                         target='_blank'
                         rel='noopener noreferrer'
                         className="button nav-button btn-sm mx-4"> 
@@ -59,10 +73,10 @@ function App() {
                   </Nav> 
                 </Navbar.Collapse>
               </Container>
-            </NavBar>
+            </Navbar>
           </>
           <div>
-            {loading ? (
+            {loadingStatus ? (
               <div style={{ display:'flex', justifyContent:'center', alignItems:'center', minHeight:'80vh'}}>
                   <Spinner animation="border" style={{ display:'flex'}} />
                   <p className="mx-3 my-0">Awaiting Metamask connection... </p>
@@ -79,3 +93,4 @@ function App() {
       </BrowserRouter>
     );
 }
+export default App;
