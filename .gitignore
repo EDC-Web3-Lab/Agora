@@ -163,3 +163,7 @@ typechain
 #Hardhat files
 cache
 artifacts
+
+# EDC : ignores 
+src/frontend/components/App_orig.js
+src/frontend/components/App_bak.js
