@@ -21,20 +21,22 @@ import logo from "./logo.png";
 import './App.css';
 
 function App() {
+    //   __ state varialables (global scope) ___
     const [loadingStatus, setLoadingStatus] = useState(true) // set loading status true
     const [account, setAccount] = useState(null)
     const [contract, setContract] = useState({})
     const loadContract = async (signer) => {
-      // get copy of deploy smart contract
-      const curr_contract = new ethers.Contract(SmartContractAddress.address, SmartContractAbi.abi, signer)
-      setContract(curr_contract)
-      setLoadingStatus(false) // done loading. set status to false
+      const curr_contract = new ethers.Contract(SmartContractAddress.address,
+                                                SmartContractAbi.abi,
+                                                signer)  // get deployed smart contract
+      setContract(curr_contract) // store in state_var 'contract'
+      setLoadingStatus(false) // done loading; set to false
     }
-      const web3Handler = async () => {
-      const accounts = await window.ethereum.request({ method: 'eth_requestAccounts'})
-      setAccount(accounts[0])   //   gets the first accounts[0]  (currently connnected)
+    const web3Handler = async () => {
+      const accounts = await window.ethereum.request({ method: 'eth_requestAccounts'}) // get a list of node accts
+      setAccount(accounts[0])   //   set state_var to 1st node acct in list (currently connnected)
       const provider = new ethers.providers.Web3Provider(window.ethereum) // Get web3 provider from metamask
-      const signer = provider.getSigner()       // Get the signer
+      const signer = provider.getSigner()   // Get the signer
       loadContract(signer)
     }
     return (
@@ -43,9 +45,9 @@ function App() {
           <>
             <Navbar expand="lg" bg="secondary" variant="dark">
               <Container>
-                <Navbar.Brand href="https://github.com/ed-chin-git">
+                <Navbar.Brand href="http:localhost:3000">
                   <img src={logo} width="40" height="40" className="" alt="" />
-                  &nbsp; Agora
+                  &nbsp; Midnight Owl
                 </Navbar.Brand>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
