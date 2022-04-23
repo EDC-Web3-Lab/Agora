@@ -1,7 +1,4 @@
-/*  
-MidnightOwl : Main Smart Contract
-SPDX-License-Identifier: UNLICENSED
-*/
+// SPDX-License-Identifier: UNLICENSED
 pragma solidity  ^0.8.4; 
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
@@ -9,6 +6,7 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 string constant tokenName = "MidnightOwl";
 string constant tokenSymbol = "MOWL";
 
+/* MidnightOwl : Main Smart Contract */
 contract MidnightOwl is ERC721(tokenName, tokenSymbol) , Ownable {
     // ___ STATE VARIABLES ____
     string  public metadataURI = "https://bafybeihzlnpv7eq5i5utkmc7xeub3gvzszjiqu6jv5rpbdhi42niefb6du.ipfs.nftstorage.link/";
