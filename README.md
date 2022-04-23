@@ -1,4 +1,4 @@
-# `Agora` 
+# `Midnight Owl` 
 
 A full-stack Dapp framework consisting of a React front-end running on NodeJS that interacts with a solidity smart contract deployed to an etherium-compatible blockchain
 

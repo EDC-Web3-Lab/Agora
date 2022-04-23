@@ -28,9 +28,9 @@ const { ethers } = require("hardhat")
 const toWei = (num) => ethers.utils.parseEther(num.toString())
 const fromWei = (num) => ethers.utils.formatEther(num)
 
-describe("UNIT TESTS : Agora Smart Contract", function () {
-    const erc721Name = "Agora"
-    const erc721Symbol = "AGRA"
+describe("UNIT TESTS : Main Smart Contract", function () {
+    const erc721Name = "MidnightOwl"
+    const erc721Symbol = "MOWL"
     let smartContract
     let deployer, artist, user1, user2, users;
     let royaltyFee = toWei(0.01);
@@ -48,7 +48,7 @@ describe("UNIT TESTS : Agora Smart Contract", function () {
     // beforeEach() is run before each test in a describe : MochaJS
     beforeEach(async () => {
         // instantiate ContractFactory obj
-        const smartContractName = "Agora"
+        const smartContractName = "MidnightOwl"
         const contractFactory = await ethers.getContractFactory(smartContractName);
         // Assign first 4 sample wallets(signers) to deployer, artists, users ...
         [deployer, artist, user1, user2, ...users] = await ethers.getSigners();

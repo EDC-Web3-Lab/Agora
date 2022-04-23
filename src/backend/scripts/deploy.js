@@ -9,7 +9,7 @@ const { ethers } = require("hardhat");  //  Instantiate ethers Obj (already inje
 
 async function main() {
 
-  const smartContractName = "Agora"
+  const smartContractName = "MidnightOwl"
   const toWei = (num) => ethers.utils.parseEther(num.toString()) //   Wei
   const fromWei = (num) => ethers.utils.formatEther(num)  // conversion functions
 

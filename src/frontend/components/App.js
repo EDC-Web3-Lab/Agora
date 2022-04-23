@@ -15,8 +15,9 @@ import {
     Button,
     Container
  } from "react-bootstrap";
-import SmartContractAddress from '../contractsData/Agora-address.json';
-import SmartContractAbi from '../contractsData/Agora.json';
+import SmartContractAddress from '../contractsData/MidnightOwl-address.json';
+import SmartContractAbi from '../contractsData/MidnightOwl.json';
+
 import logo from "./logo.png";
 import './App.css';
 
@@ -45,7 +46,7 @@ function App() {
           <>
             <Navbar expand="lg" bg="secondary" variant="dark">
               <Container>
-                <Navbar.Brand href="http:localhost:3000">
+                <Navbar.Brand href="http://localhost:3000">
                   <img src={logo} width="40" height="40" className="" alt="" />
                   &nbsp; Midnight Owl
                 </Navbar.Brand>

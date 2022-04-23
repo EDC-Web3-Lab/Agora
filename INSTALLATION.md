@@ -1,4 +1,4 @@
-# `Agora` DevOps Setup (linux)
+# Setup (linux)
 https://blog.suhailkakar.com/setup-and-build-your-first-web-3-application  
 https://medium.com/building-blocks-on-the-chain/how-to-build-a-react-dapp-with-hardhat-and-metamask-9cec8f6410d3#7c9f  
 https://medium.com/coinsbench/building-a-dapp-using-truffle-and-react-with-ci-cd-integration-aa278a207247
