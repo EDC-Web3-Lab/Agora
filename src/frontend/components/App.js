@@ -22,7 +22,7 @@ import logo from "./logo.png";
 import './App.css';
 
 function App() {
-    //   __ state vars (global scope) ___
+    //   __ stateful vars (global scope) ___
     const [account, setAccount] = useState(null)  // store blkchain-node accounts
     // eslint-disable-next-line
     const [contract, setContract] = useState({})  // store smart contract
