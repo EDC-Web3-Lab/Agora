@@ -22,10 +22,12 @@ import logo from "./logo.png";
 import './App.css';
 
 function App() {
-    //   __ state varialables (global scope) ___
+    //   __ state vars (global scope) ___
+    const [account, setAccount] = useState(null)  // store blkchain-node accounts
+    // eslint-disable-next-line
+    const [contract, setContract] = useState({})  // store smart contract
     const [loadingStatus, setLoadingStatus] = useState(true) // set loading status true
-    const [account, setAccount] = useState(null)
-    const [contract, setContract] = useState({})
+    // get smart contract
     const loadContract = async (signer) => {
       const curr_contract = new ethers.Contract(SmartContractAddress.address,
                                                 SmartContractAbi.abi,
@@ -34,7 +36,7 @@ function App() {
       setLoadingStatus(false) // done loading; set to false
     }
     const web3Handler = async () => {
-      const accounts = await window.ethereum.request({ method: 'eth_requestAccounts'}) // get a list of node accts
+      const accounts = await window.ethereum.request({ method: 'eth_requestAccounts'}) // get blkchain node accts
       setAccount(accounts[0])   //   set state_var to 1st node acct in list (currently connnected)
       const provider = new ethers.providers.Web3Provider(window.ethereum) // Get web3 provider from metamask
       const signer = provider.getSigner()   // Get the signer
@@ -46,7 +48,7 @@ function App() {
           <>
             <Navbar expand="lg" bg="secondary" variant="dark">
               <Container>
-                <Navbar.Brand href="http://localhost:3000">
+                <Navbar.Brand href="/">
                   <img src={logo} width="40" height="40" className="" alt="" />
                   &nbsp; Midnight Owl
                 </Navbar.Brand>
