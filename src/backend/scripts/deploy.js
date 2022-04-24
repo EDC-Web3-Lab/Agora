@@ -63,9 +63,9 @@ async function main() {
 }
 
 function saveFrontendFiles(contract, name) {
-  const fs = require("fs");
-  const contractsDir = __dirname + "/../../frontend/contractsData";
+  const fs = require("fs"); // instantiate fileservices obj
 
+  const contractsDir = __dirname + "/../../frontend/contractsData";
   if (!fs.existsSync(contractsDir)) {
     fs.mkdirSync(contractsDir);
   }
@@ -76,7 +76,6 @@ function saveFrontendFiles(contract, name) {
   );
 
   const contractArtifact = artifacts.readArtifactSync(name);  // artifacts. file locations are defined in hardhat.config.js
-
   fs.writeFileSync(
     contractsDir + `/${name}.json`,
     JSON.stringify(contractArtifact, null, 2)
