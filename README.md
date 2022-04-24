@@ -1,12 +1,7 @@
-# `Midnight Owl` 
-
-A full-stack Dapp framework consisting of a React front-end running on NodeJS that interacts with a solidity smart contract deployed to an etherium-compatible blockchain
-
-
-This sample application models an online marketplace where a user can connect a metamask wallet to buy & sell audio NFTs.
-# Framework for Web3 Applications
-https://youtu.be/Q_cxytZZdnc
-
+# `Midnight Owl`  
+## Framework for Web3 Applications  
+A full-stack Dapp framework consisting of a React front-end running on NodeJS that interacts with a solidity smart contract deployed to an etherium-compatible blockchain.  
+This sample application models an online marketplace where a user can connect a metamask wallet to buy & sell audio NFTs.  
 ## Tech Stack  
 + NodeJS  : javascript runtime (backend) Version 16.14.2
 + React : front-end component-based framework
