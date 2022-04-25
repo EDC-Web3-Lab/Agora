@@ -19,6 +19,7 @@ import SmartContractAddress from '../contractsData/MidnightOwl-address.json';
 import SmartContractAbi from '../contractsData/MidnightOwl.json';
 
 import logo from "./logo.png";
+import Home from "./Home.js";
 import './App.css';
 
 function App() {

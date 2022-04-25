@@ -74,3 +74,13 @@ https://youtu.be/Q_cxytZZdnc
 
 ## Deploy to AWS
 + https://aws.amazon.com/getting-started/hands-on/build-react-app-amplify-graphql/module-one/?e=gs2020&p=build-a-react-app-intro  
+
+
+## Webpack issue
+throws an error with webpack 5.  Use webpack <5  until resolved.
+webpack config is here: node_modules/react-scripts/config/webpack.config.js
+
++ npm show webpack version
++ npm view webpack versions
++ npm uninstall webpack
++ npm install webpack@4.46.0
