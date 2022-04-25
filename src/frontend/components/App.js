@@ -17,10 +17,12 @@ import {
  } from "react-bootstrap";
 import SmartContractAddress from '../contractsData/MidnightOwl-address.json';
 import SmartContractAbi from '../contractsData/MidnightOwl.json';
-
-import logo from "./logo.png";
-import Home from "./Home.js";
 import './App.css';
+import logo from "./logo.png";
+
+// react page components
+import Home from "./Home.js";
+
 
 function App() {
     //   __ stateful vars (global scope) ___
@@ -89,7 +91,9 @@ function App() {
               </div>
             ) : ( 
               <Routes>
-                <Route path='/' />
+                <Route path='/' element={
+                  <Home contract={contract} />
+                } />
                 <Route path='/my-tokens' />
                 <Route path='/my-resales' />
               </Routes>
